@@ -1,12 +1,24 @@
 <?php
   class Accounts extends Controller {
     public function __construct(){
-      // $this->postModel = $this->model('Post');
+      if(!isLoggedIn()){
+        redirect('pages/index');
+      }
+
+      $this->accountModel = $this->model('Account');
+     
     }
-    
     public function index(){
+
+     // $TotalPro_list = $this->accountModel->GetAllProperties();
+      $listing_num_pro = $this->accountModel->GetAllProperties();
+      $listing_num_agent = $this->accountModel->GetAllAgents();
+      $listing_num_user = $this->accountModel->GetAllUsers();
+
        $data = [
-        'title' => 'About Us'
+         'listing_num_pro' => $listing_num_pro,
+         'listing_num_agent' => $listing_num_agent,
+          'listing_num_user' => $listing_num_user
       ];
      
       $this->view('accounts/index', $data);

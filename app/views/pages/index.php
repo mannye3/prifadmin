@@ -18,12 +18,14 @@
                                 </a>
                             </h2>
 
-                            <form class="" action="" method="post">
+                            <form class="" action="<?php echo URLROOT; ?>/pages/index"  method="post">
 
                                 <div class="form-group m-b-20 row">
                                     <div class="col-12">
                                         <label for="emailaddress">Email address</label>
-                                        <input class="form-control" type="email" name="email" id="emailaddress" required="" placeholder="Enter your email">
+                                       
+                                        <input class="form-control <?php echo (!empty($data['email_err'])) ? 'is-invalid' : ''; ?>" type="email" name="email" id="emailaddress" required="" placeholder="Enter your email">
+                                        <span class="invalid-feedback"><?php echo $data['email_err']; ?></span>
                                     </div>
                                 </div>
 
@@ -31,7 +33,9 @@
                                     <div class="col-12">
                                         <a href="<?php echo URLROOT; ?>/pages/foget_password" class="text-muted pull-right"><small>Forgot your password?</small></a>
                                         <label for="password">Password</label>
-                                        <input class="form-control"  name="password" type="password" required="" id="password" placeholder="Enter your password">
+                                        <input class="form-control <?php echo (!empty($data['password_err'])) ? 'is-invalid' : ''; ?>"  name="password" type="password" required="" id="password" placeholder="Enter your password">
+                                        <span class="invalid-feedback"><?php echo $data['password_err']; ?></span>
+                                        
                                     </div>
                                 </div>
 
