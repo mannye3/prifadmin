@@ -29,6 +29,9 @@
         <!-- App js -->
         <script src="<?php echo URLROOT; ?>/assets/js/jquery.core.js"></script>
         <script src="<?php echo URLROOT; ?>/assets/js/jquery.app.js"></script>
+         <script src="<?php echo URLROOT; ?>/assets/js/pass.js"></script>
+
+
 
          <script type="text/javascript">
             $(document).ready(function() {

@@ -53,6 +53,8 @@
                                 <button type="button" data-target="#signup-modal" data-toggle="modal" class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4"><i class="mdi mdi-plus-circle"></i>Add New</button>
                             </div>
 
+                            <?php flash('update_message'); ?>
+
                                     <table id="datatable-buttons" class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap" cellspacing="0" width="100%" >
 
 
@@ -65,7 +67,6 @@
                                             <th>Full Name</th>
                                             <th>Phone</th>
                                             <th>Email</th>
-                                            <th>Properties</th>
                                             <th>Reg Date</th>
                                             <th>Status</th>
                                           
@@ -74,37 +75,62 @@
                                         </thead>
 
                                         <tbody>
+                                             <?php foreach($data['users_info'] as $users_info) : ?>
+
                                         <tr>
-                                            <td><b>#1256</b></td>
+                                            <td><b>#<?php echo $users_info->id;  ?></b></td>
                                             <td>
                                                 <a href="javascript: void(0);">
-                                                    <img src="assets/images/photo.jpg" />
+                                                    <?php
+                                            
+                                          if ($users_info->image ==""){
+                                           echo '<img src="'.URLROOT.'/assets/images/3002121059.jpg" />';
+                                           }  
+
+
+                                           elseif ($users_info->image !=="") {
+
+                                             echo '<img src="http://localhost/prifa/profile_pic/'.$users_info->image.'">';
+                                                
+                                             }  
+
+
+                                        ?>
+                                                   
                                                    
                                                 </a>
                                             </td>
 
                                             <td>
-                                                Emmanuel John
+                                                <?php echo $users_info->name;  ?>
                                             </td>
 
                                             <td>
-                                               08062165573
+                                               <?php echo $users_info->phone;  ?>
                                             </td>
 
                                             <td>
-                                               Emmanuel@me.com
+                                                <?php echo $users_info->email;  ?>
                                             </td>
 
                                             <td>
-                                               3
-                                            </td>
-
-                                            <td>
-                                                2018/04/28
+                                                <?php echo $users_info->reg_date;  ?>
                                             </td>
 
                                              <td>
-                                                <span class="badge badge-danger">Not Active</span>
+                                                <?php   
+                                        if ($users_info->status  == 1){
+                                            echo '<span class="badge badge-success">Active</span></span>';
+                                                        }
+                                            ?>
+
+                                            <?php
+
+                                                if ($users_info->status == 0){
+                                                echo '<span class="badge badge-danger">Not Active</span></span>';
+                                            }
+                                            ?>
+                                               
                                             </td>
 
                                             
@@ -112,67 +138,15 @@
                                                 <div class="btn-group dropdown">
                                                     <a href="javascript: void(0);" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="user.php"><i class="fa fa-search mr-2 text-muted font-18 vertical-middle"></i>view</a>
-
-                                                         <a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
-                                                        <a class="dropdown-item" href="#"><i class="fa fa-envelope mr-2 text-muted font-18 vertical-middle"></i>Send Message</a>
-                                                        <a class="dropdown-item" href="#"><i class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Change Status</a>
+                                                        <a class="dropdown-item" href="<?php echo URLROOT; ?>/accounts/user/<?php echo $users_info->id;  ?>"><i class="fa fa-search mr-2 text-muted font-18 vertical-middle"></i>view</a>
+                                                        <a class="dropdown-item" href="<?php echo URLROOT; ?>/accounts/delete_user/<?php echo $users_info->id; ?>"  onclick="return confirm('Are you sure you want to DELETE USER ?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
+                                                        <a class="dropdown-item" href="<?php echo URLROOT; ?>/accounts/user_staus/<?php echo $users_info->id; ?>"><i class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Change Status</a>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
 
-
-
-                                         <tr>
-                                            <td><b>#2542</b></td>
-                                            <td>
-                                                <a href="javascript: void(0);">
-                                                    <img src="assets/images/photo.jpg" />
-                                                   
-                                                </a>
-                                            </td>
-
-                                            <td>
-                                            John Emmanuel
-                                            </td>
-
-                                            <td>
-                                               08062165573
-                                            </td>
-
-                                            <td>
-                                               John@me.com
-                                            </td>
-
-                                            <td>
-                                               3
-                                            </td>
-
-                                            <td>
-                                                2018/12/28
-                                            </td>
-
-                                             <td>
-                                                <span class="badge badge-success">Active</span>
-                                            </td>
-
-                                            
-                                            <td>
-                                                 <div class="btn-group dropdown">
-                                                    <a href="javascript: void(0);" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="user.php"><i class="fa fa-search mr-2 text-muted font-18 vertical-middle"></i>view</a>
-
-                                                         <a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
-                                                        <a class="dropdown-item" href="#"><i class="fa fa-envelope mr-2 text-muted font-18 vertical-middle"></i>Send Message</a>
-                                                        <a class="dropdown-item" href="#"><i class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Change Status</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        <?php endforeach; ?>
 
                                         </tbody>
                                     </table>

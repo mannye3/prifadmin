@@ -73,21 +73,21 @@
 
 
 
-    public function updateUserPassword($data){
-      $this->db->query('UPDATE admin SET password = :password  WHERE email = :email');
-      // Bind values
-      $this->db->bind(':email',  $data['email']);
-      $this->db->bind(':password', $data['password']);
+    // public function updateUserPassword($data){
+    //   $this->db->query('UPDATE admin SET password = :password  WHERE email = :email');
+    //   // Bind values
+    //   $this->db->bind(':email',  $data['email']);
+    //   $this->db->bind(':password', $data['password']);
     
       
 
-      // Execute
-      if($this->db->execute()){
-        return true;
-      } else {
-        return false;
-      }
-    }
+    //   // Execute
+    //   if($this->db->execute()){
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
 
 
 
@@ -147,6 +147,110 @@
 
 
 
+
+
+      public function getUsers(){
+      $this->db->query('SELECT *  FROM users WHERE type= "User" ');
+      
+      $results = $this->db->resultSet();
+
+      return $results;
+    }
+
+
+
+    public function getUserById($id){
+      $this->db->query('SELECT *  FROM users WHERE id= :id ');
+      
+       $this->db->bind(':id', $id);
+
+      $row = $this->db->single();
+
+      return $row;
+    }
+
+
+     public function updateUserInfo($data){
+      $this->db->query('UPDATE users SET name = :name, email = :email, phone = :phone WHERE id = :id');
+      // Bind values
+       $this->db->bind(':id', $data['id']);
+       $this->db->bind(':name', $data['name']);
+      $this->db->bind(':email',  $data['email']);
+      $this->db->bind(':phone',  $data['phone']);
+     
+    
+      
+
+      // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+
+     public function updateUserPassword($data){
+      $this->db->query('UPDATE users SET password = :password  WHERE id = :id');
+      // Bind values
+       $this->db->bind(':id', $data['id']);
+      $this->db->bind(':password', $data['password']);
+    
+      
+
+      // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+
+    public function deleteUser($id){
+      $this->db->query('DELETE FROM users WHERE id = :id');
+      // Bind values
+      $this->db->bind(':id', $id);
+
+      // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+    public function userStatusActive($id,$active){
+      $this->db->query('UPDATE users SET status = 1  WHERE id = :id');
+      // Bind values
+      $this->db->bind(':id', $id);
+
+      // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+    public function userStatusDisactive($id,$inactive){
+      $this->db->query('UPDATE users SET status = 0  WHERE id = :id');
+      // Bind values
+      $this->db->bind(':id', $id);
+
+      // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    
 
    
   }

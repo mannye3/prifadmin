@@ -50,6 +50,7 @@
         <link href="<?php echo URLROOT; ?>/assets/css/style.css" rel="stylesheet" type="text/css" />
 
         <script src="<?php echo URLROOT; ?>/assets/js/modernizr.min.js"></script>
+         <link href="<?php echo URLROOT; ?>/plugins/jquery-toastr/jquery.toast.min.css" rel="stylesheet" />
 
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
 
