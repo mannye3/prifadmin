@@ -187,22 +187,175 @@
 
 
 
-     public function agents(){
-      $data = [
-        'title' => 'About Us'
-      ];
+             public function agents(){
 
-      $this->view('accounts/agents', $data);
+              $agents_info = $this->accountModel->getAgents();
+
+
+              $data = [
+                 'agents_info' => $agents_info
+              ];
+
+              $this->view('accounts/agents', $data);
+            }
+
+
+
+
+
+     public function agent($id){
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+        // Sanitize POST array
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        // Init data
+            $data =[
+              'id' => $id,
+              'name' => trim($_POST['name']),
+              'email' => trim($_POST['email']),
+              'phone' => trim($_POST['phone']),
+              'name_err' => ''
+            ];
+
+            // Validate Email
+            if(empty($data['name'])){
+              $data['name_err'] = 'Pleae enter name';
+            } 
+            // Make sure errors are empty
+            if(empty($data['name_err'])){
+              // Validated
+         // $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+          // Validated
+          if($this->accountModel->updateAgentInfo($data)){
+            flash('update_message', 'User Info Updated Successfully');
+            redirect('accounts/agents');
+          } else {
+            die('Something went wrong');
+          }
+        } else {
+          // Load view with errors
+          $this->view('accounts/user', $data);
+        }
+
+      } else {
+ 
+        $agent_info = $this->accountModel->getAgentById($id);
+        $agent_property = $this->accountModel->getAgentsProperties($id);
+        $active_property = $this->accountModel->getAgentsActiveProperties($id);
+        $pending_property = $this->accountModel->getAgentsPendingProperties($id);
+         $agentpro = $this->accountModel->getAllAgentsPro($id);
+
+            $data = [
+               'agent_info' => $agent_info,
+               'agent_property' => $agent_property,
+               'active_property' => $active_property,
+               'pending_property' => $pending_property,
+               'agentpro' => $agentpro
+            ];
+  
+        $this->view('accounts/agent', $data);
+      }
     }
 
 
-     public function agent(){
-      $data = [
-        'title' => 'About Us'
-      ];
+     public function edit_agentpass($id){
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-      $this->view('accounts/agent', $data);
+        // Sanitize POST array
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        // Init data
+            $data =[
+              'id' => $id,
+              'password' => trim($_POST['password']),
+              'password_err' => ''
+            ];
+
+            // Validate Email
+            if(empty($data['password'])){
+              $data['password_err'] = 'Pleae enter name';
+            } 
+            // Make sure errors are empty
+            if(empty($data['password_err'])){
+              // Validated
+         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+          // Validated
+          if($this->accountModel->updateAgentPassword($data)){
+            flash('update_message', 'User Password Updated');
+            redirect('accounts/agents');
+          } else {
+            die('Something went wrong');
+          }
+        } else {
+          // Load view with errors
+          $this->view('accounts/agent', $data);
+        }
+
+      } else {
+      
+        $user_info = $this->accountModel->getUserById($id);
+
+            $data = [
+               'user_info' => $user_info
+            ];
+  
+        $this->view('accounts/agent', $data);
+      }
     }
+
+
+           public function delete_agent($id){
+            
+            
+              if($this->accountModel->deleteAgent($id)){
+                flash('update_message', 'User Removed');
+                redirect('accounts/agents');
+              } else {
+                die('Something went wrong');
+              }
+
+
+              }
+
+
+               public function agent_status($id){
+
+                $active = 1;
+
+                $inactive = 0;
+              
+               $agent_info = $this->accountModel->getAgentById($id);
+
+               if ($agent_info->status == 1) {
+
+                 if($this->accountModel->agentStatusDisactive($id,$inactive)){
+                flash('update_message', 'User Disable');
+                redirect('accounts/agents');
+                
+               }
+             }
+
+               elseif ($agent_info->status == 0) {
+
+                 if($this->accountModel->agentStatusActive($id,$active)){
+                flash('update_message', 'User Enable');
+                redirect('accounts/agents');
+               }
+             }
+
+            
+              else {
+                die('Something went wrong');
+              }
+
+
+              
+
+            }
+
+
+
 
     public function properties(){
       $data = [
@@ -213,13 +366,26 @@
     }
 
 
-     public function property(){
+    public function property($ref_id){
+
+       
+      $pro_info = $this->accountModel->getPropertyByRef($ref_id);
+      $pro_pics = $this->accountModel->getPropertyPictures($ref_id);
+      
+      
+      
+
       $data = [
-        'title' => 'About Us'
+        'pro_info' => $pro_info,
+         'pro_pics' => $pro_pics,
+         
+         
+        
       ];
 
       $this->view('accounts/property', $data);
     }
+
 
     public function edit_property(){
       $data = [

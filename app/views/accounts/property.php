@@ -43,10 +43,10 @@
                             <div class="col-md-6">
                                 <!-- Personal-Information -->
                                 <div class="card-box">
-                                    <h4 class="header-title mt-0 m-b-20">home</h4>
+                                    <h4 class="header-title mt-0 m-b-20"><?php echo $data['pro_info']->title; ?></h4>
                                     <div class="panel-body">
                                         <p class="text-muted font-13">
-                                           good
+                                           <?php echo $data['pro_info']->details; ?>
                                         </p>
 
 
@@ -63,15 +63,15 @@
                                                 
                                             <div class="col-md-6 "> 
                                             <ul class="text-muted font-13"> 
-                                        <li>1 Bedrooms</li>
-                                        <li>flat</li>
+                                        <li><?php echo $data['pro_info']->rooms; ?> Bedrooms</li>
+                                        <li><?php echo $data['pro_info']->type; ?></li>
                                        
                                         </ul>
                                             </div>
 
                                             <div class="col-md-6 "> 
                                             <ul class="text-muted font-13">   
-                                        <li>1 Bathrooms</li>
+                                        <li><?php echo $data['pro_info']->bathrooms; ?> Bathrooms</li>
                                         <li>Area <span>530 sq ft</li>
                                         
                                         </ul>
@@ -84,7 +84,7 @@
                                                         </div>
                                 <!-- Personal-Information -->
 
-                                <div class="card-box ribbon-box">
+                                <!-- <div class="card-box ribbon-box">
                                     <div class="ribbon ribbon-primary">Equires</div>
                                     <div class="clearfix"></div>
                                     <div class="inbox-widget">
@@ -110,7 +110,7 @@
                                         </a>
                                        
                                     </div>
-                                </div>
+                                </div> -->
 
                             </div>
 
@@ -126,20 +126,21 @@
                                      <div class="port">
                             <div class="portfolioContainer">
 
-                         
-                   
+                                <?php foreach ( $data['pro_pics'] as $pro_img) : ?>
                                 <div class="col-sm-6 col-md-4 webdesign illustrator">
-                                    <a href="" class="image-popup">
+                                    <a href="http://localhost/prifa/pro_pics/<?php echo $pro_img->pic; ?>" class="image-popup">
                                         <div class="portfolio-masonry-box">
                                             <div class="portfolio-masonry-img">
-                                                <img src="" class="thumb-img img-fluid" alt="work-thumbnail">
+                                                <img src="http://localhost/prifa/pro_pics/<?php echo $pro_img->pic; ?>" class="thumb-img img-fluid" alt="work-thumbnail">
                                             </div>
                                             
                                         </div>
                                     </a>
+
+
                                 </div>
 
-                                
+                                 <?php endforeach; ?>
 
                                 
                             </div>
@@ -156,7 +157,10 @@
                                 </div>
 
                             </div>
-                             <div class="card-box ribbon-box">
+
+
+
+                            <!--  <div class="card-box ribbon-box">
                                     <div class="ribbon ribbon-primary">Viewing</div>
                                     <div class="clearfix"></div>
                                     <div class="inbox-widget">
@@ -182,11 +186,11 @@
                                         </a>
                                        
                                     </div>
-                                </div>
+                                </div> -->
                             <!-- end col -->
 
                         </div>
                         <!-- end row -->
 
-              
+        
  <?php require APPROOT . '/views/inc/footer_inner.php'; ?>    
