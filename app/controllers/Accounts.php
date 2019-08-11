@@ -190,10 +190,12 @@
              public function agents(){
 
               $agents_info = $this->accountModel->getAgents();
+              $agents_pro = $this->accountModel->GetTotalAgentPro();
 
 
               $data = [
-                 'agents_info' => $agents_info
+                 'agents_info' => $agents_info,
+                 'agents_pro' => $agents_pro
               ];
 
               $this->view('accounts/agents', $data);
@@ -358,11 +360,15 @@
 
 
     public function properties(){
-      $data = [
-        'title' => 'About Us'
+      $properties_info = $this->accountModel->getProperties();
+      
+          $data = [
+        'properties_info' => $properties_info 
+         
       ];
 
-      $this->view('accounts/properties', $data);
+       $this->view('accounts/properties', $data);
+
     }
 
 
@@ -387,11 +393,115 @@
     }
 
 
-    public function edit_property(){
-      $data = [
-        'title' => 'About Us'
-      ];
+     public function edit_property($ref_id){
+          if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            // Sanitize POST array
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-      $this->view('accounts/edit_property', $data);
-    }
+            $data = [
+              'ref_id' => $ref_id,
+              'title' => trim($_POST['title']),
+              'type' => trim($_POST['type']),
+              'purpose' => trim($_POST['purpose']),
+              'price' => trim($_POST['price']),
+              'rooms' => trim($_POST['rooms']),
+              'bathrooms' => trim($_POST['bathrooms']),
+              'details' => trim($_POST['editor1']),
+              'address' => trim($_POST['address']),
+              'latitude' => trim($_POST['latitude']),
+              'longitude' => trim($_POST['longitude']),
+              'state' => trim($_POST['state']),
+              'lga' => trim($_POST['lga']),
+              'title_err' => '',
+              'address_err' => ''
+            ];
+
+
+            // Validate data
+            if(empty($data['title'])){
+              $data['title_err'] = 'Please enter title';
+            }
+           
+            // Make sure no errors
+            if(empty($data['title_err'])){
+              // Validated
+              if($this->accountModel->updateProperty($data)){
+                flash('update_message', 'Property Updated');
+            
+                redirect('accounts/properties');
+              } else {
+                die('Something went wrong');
+              }
+            } else {
+              // Load view with errors
+              $this->view('accounts/edit_property', $data);
+            }
+
+          } else {
+            // Get existing post from model
+             $pro_info = $this->accountModel->getPropertyByRef($ref_id);
+
+          
+
+            $data = [
+            'pro_info' => $pro_info,
+            
+          ];
+
+      
+            $this->view('accounts/edit_property', $data);
+          }
+        }
+
+
+         public function delete_property($ref_id){
+            
+              // Get existing post from model
+             $pro_info = $this->accountModel->getPropertyByRef($ref_id);
+            
+           
+              if($this->accountModel->deleteProperty($ref_id)){
+                flash('update_message', 'Property Removed');
+                redirect('accounts/properties');
+              } else {
+                die('Something went wrong');
+              }
+
+              }
+
+
+               public function property_status($ref_id){
+
+                $active = 1;
+
+                $inactive = 0;
+              
+               $pro_info = $this->accountModel->getPropertyByRef($ref_id);
+
+               if ($pro_info->status == 1) {
+
+                 if($this->accountModel->propertyStatusDisactive($ref_id,$inactive)){
+                flash('update_message', 'Property Disable');
+                redirect('accounts/properties');
+                
+               }
+             }
+
+               elseif ($agent_info->status == 0) {
+
+                 if($this->accountModel->propertyStatusActive($ref_id,$active)){
+                flash('update_message', 'Property Enable');
+                redirect('accounts/properties');
+               }
+             }
+
+            
+              else {
+                die('Something went wrong');
+              }
+
+
+              
+
+            }
   }

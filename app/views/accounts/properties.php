@@ -50,6 +50,7 @@
                                     <a href="add_property.php">
                                 <button type="button" class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4"><i class="mdi mdi-plus-circle"></i>Add New</button></a>
                             </div> -->
+                             <?php flash('update_message'); ?>
 
                                     <table id="datatable-buttons" class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap" cellspacing="0" width="100%" >
 
@@ -57,7 +58,7 @@
                                        <thead>
                                         <tr>
                                             <th>
-                                                ID
+                                             Ref ID
                                             </th>
                                             <th></th>
                                             <th>Property Title</th>
@@ -70,33 +71,46 @@
                                         </thead>
 
                                         <tbody>
+                                              <?php foreach($data['properties_info'] as $properties_info) : ?>
                                          
                                         <tr>
-                                            <td><b>#1</b></td>
+                                            <td><b> <?php echo  $properties_info->ref_id;  ?></b></td>
                                             <td>
                                                 <a href="javascript: void(0);">
-                                                    <img src="" alt="contact-img" title="contact-img"  />
+                                                   <img src="http://localhost/prifa/pro_pics/<?php echo $properties_info->pic; ?>" alt="property-img"   />
                                                    
                                                 </a>
                                             </td>
 
                                             <td>
-                                               Home
+                                              <?php echo $properties_info->title; ?>
                                             </td>
 
                                             <td>
-                                             5000
+                                             <?php echo $properties_info->price; ?>
                                             </td>
 
                                             <td>
-                                                Active                                             
+                                                 <?php   
+                                        if ($properties_info->status  == 1){
+                                            echo '<span class="badge badge-success">Active</span></span>';
+                                                        }
+                                            ?>
+
+                                            <?php
+
+                                                if ($properties_info->status == 0){
+                                                echo '<span class="badge badge-danger">Not Active</span></span>';
+                                            }
+                                            ?>                                         
+                                          
 
                                             </td>
 
                                           
 
                                             <td>
-                                               20/20/2020
+                                              <?php echo $properties_info->upload_date; ?>
                                             </td>
 
                                            <!--  <td>
@@ -107,11 +121,11 @@
                                                 <div class="btn-group dropdown">
                                                     <a href="javascript: void(0);" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="property.php?property_no=<?php echo $rw5["property_no"]; ?>"><i class="fa fa-search mr-2 text-muted font-18 vertical-middle"></i>view</a>
+                                                        <a class="dropdown-item" href="<?php echo URLROOT; ?>/accounts/property/<?php echo $properties_info->ref_id;  ?>"><i class="fa fa-search mr-2 text-muted font-18 vertical-middle"></i>view</a>
 
-                                                         <a class="dropdown-item" href="edit_property.php?property_no=<?php echo $rw5["property_no"]; ?>"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                        <a class="dropdown-item" href="inc/delete.php?id=<?php echo $rw5["id"];?> " onclick="return confirm('Are you sure you want to DELETE PROPERTY ?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
-                                                        <!-- <a class="dropdown-item" href="inc/rent_status.php?id=<?php echo $rw5["property_no"]; ?>"><i class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Mark as Rentout</a> -->
+                                                         <a class="dropdown-item" href="<?php echo URLROOT; ?>/accounts/edit_property/<?php echo $properties_info->ref_id;  ?>"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
+                                                        <a class="dropdown-item" href="<?php echo URLROOT; ?>/accounts/delete_property/<?php echo $properties_info->ref_id;  ?> " onclick="return confirm('Are you sure you want to DELETE PROPERTY ?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
+                                                        <a class="dropdown-item" href="<?php echo URLROOT; ?>/accounts/property_status/<?php echo $properties_info->ref_id; ?>"><i class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Change Status</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -119,7 +133,7 @@
 
                                       
 
-                                       
+                                         <?php endforeach; ?>
 
                                         </tbody>
 
@@ -143,10 +157,7 @@
 
                 </div> <!-- content -->
 
-                <footer class="footer text-right">
-                    2018 © Highdmin. - Coderthemes.com
-                </footer>
-
+                
             </div>
               
  <?php require APPROOT . '/views/inc/footer_inner.php'; ?>    

@@ -46,17 +46,17 @@
                                 <div class="card-box">
                                     <h4 class="m-t-0 header-title">Edit Property</h4>
                                     
-                                        <form method="POST" action="core/logic-edit.php?id=<?php echo $row3["id"]; ?>">
+                                        <form method="POST" action="<?php echo URLROOT; ?>/accounts/edit_property/<?php echo $data['pro_info']->ref_id; ?>" >
                                    
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 <label for="inputEmail4" class="col-form-label">Property Title</label>
-                                                <input type="tex" value="<?php echo $row3["title"]; ?>" name="title" class="form-control">
+                                                <input type="tex" value="<?php echo $data['pro_info']->title; ?>" name="title" class="form-control">
                                             </div>
                                              <div class="form-group col-md-6">
                                                 <label  class="col-form-label">Type</label>
-                                                <select class="form-control" name="type" value="<?php echo $row3["type"]; ?>" >
-                                                    <option><?php echo $row3["type"]; ?></option>
+                                                <select class="form-control" name="type" value="<?php echo $data['pro_info']->type; ?>" >
+                                                    <option><?php echo $data['pro_info']->type; ?></option>
                                                      <option value="bungalow">Bungalow</option>
                                                  <option value="Duplex">Duplex</option>
                                                 <option value="Flat">Flat</option>
@@ -72,8 +72,8 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label  class="col-form-label">Purpose</label>
-                                                <select class="form-control" name="purpose" value="<?php echo $row3["type"]; ?>" >
-                                                    <option><?php echo $row3["purpose"]; ?></option>
+                                                <select class="form-control" name="purpose" value="<?php echo $data['pro_info']->purpose; ?>" >
+                                                    <option><?php echo $data['pro_info']->purpose; ?></option>
                                                     <option value="Rent">Rent</option>
                                                     <option value="Sale
                                                     ">Sale</option>
@@ -82,14 +82,14 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="inputPassword4" class="col-form-label">Price(₦)</label>
-                                                <input  type="input" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" value="<?php echo $row3["price"]; ?>" name="price" class="form-control">
+                                                <input  type="input" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" value="<?php echo $data['pro_info']->price; ?>" name="price" class="form-control">
                                             </div>
 
                                                
                                             <div class="form-group col-md-4">
                                                 <label for="inputPassword4" class="col-form-label">Bedrooms</label>
-                                               <select class="form-control" name="rooms" value="<?php echo $row3["rooms"]; ?>">
-                                                    <option><?php echo $row3["rooms"]; ?></option>
+                                               <select class="form-control" name="rooms" value="<?php echo $data['pro_info']->rooms; ?>">
+                                                    <option><?php echo $data['pro_info']->rooms; ?></option>
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -105,8 +105,8 @@
 
                                             <div class="form-group col-md-4">
                                                 <label for="inputPassword4" class="col-form-label">Bathrooms</label>
-                                                 <select class="form-control" name="bathrooms" value="<?php echo $row3["bathrooms"]; ?>">
-                                                    <option><?php echo $row3["bathrooms"]; ?></option>
+                                                 <select class="form-control" name="bathrooms" value="<?php echo $data['pro_info']->bathrooms; ?>">
+                                                    <option><?php echo $data['pro_info']->bathrooms; ?></option>
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -124,15 +124,7 @@
 
                                             <div class="form-group col-md-4">
                                                 <label  class="col-form-label">State</label>
-                                                <select class="form-control"  name="state" id="state" onchange="change_location();">
-                                  <option value="<?php echo $row3['state'] ?>"><?php echo $row3['state'] ?></option>
-                                        <?php
-                                      while ($re_st = mysqli_fetch_array($stlg)) {
-                                      echo '<option value="'.$re_st['name'].'" >
-                                      '.$re_st['name'].'</option>';
-                                               }
-                                             ?>
-                                      </select>
+                                                <input type="text" value="<?php echo $data['pro_info']->state; ?>" class="form-control" name="state">
                                                
                                                
                                             </div>
@@ -140,25 +132,23 @@
 
                                             <div class="form-group col-md-4">
                                                 <label for="inputPassword4" class="col-form-label">City</label>
-                                                <select required="" name="lga" id="city" class="form-control" name="choose-state">
-                                              <option><?php echo $row3['lga'] ?></option>
-                                                  </select>
+                                               <input type="text" value="<?php echo $data['pro_info']->lga; ?>" class="form-control" name="lga">
 
                                                
                                             </div>
 
                                             <div class="form-group col-md-4">
                                                 <label for="inputPassword4" class="col-form-label">Address</label>
-                                                 <input type="text" value="<?php echo $row3["address"]; ?>" name="address" onFocus="initializeAutocomplete()" id="locality" class="form-control">
+                                                 <input type="text" value="<?php echo $data['pro_info']->address; ?>" name="address" onFocus="initializeAutocomplete()" id="locality" class="form-control">
                                                   <input type="hidden" name="city" id="city" placeholder="City" value="" >
-                              <input type="hidden" value="<?php echo $row3["latitude"]; ?>" name="latitude" id="latitude" placeholder="Latitude" value="" >
-                              <input type="hidden" name="longitude" value="<?php echo $row3["longitude"]; ?>" id="longitude" placeholder="Longitude" value="" >
+                                          <input type="hidden" value="<?php echo $data['pro_info']->latitude; ?>" name="latitude" id="latitude" placeholder="Latitude" value="" >
+                                          <input type="hidden" name="longitude" value="<?php echo $data['pro_info']->longitude; ?>" id="longitude" placeholder="Longitude" value="" >
                                             </div>
 
                                             </div>
                                         <div class="form-group">
                                             <label for="inputAddress" class="col-form-label">Detailed Information</label>
-                                            <textarea type="text" name="details" class="form-control summernote" placeholder="1234 Main St"><?php echo $row3["details"]; ?></textarea>
+                                            <textarea type="text" name="details" class="form-control summernote" placeholder="1234 Main St"><?php echo $data['pro_info']->details; ?></textarea>
                                         </div>
 
                                         
@@ -169,15 +159,15 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label for="inputCity" class="col-form-label">Name</label>
-                                                <input type="text" readonly="" value="<?php echo $row3["fullname"]; ?>" name="fullname" class="form-control" id="inputCity">
+                                                <input type="text" readonly="" value="<?php echo $data['pro_info']->fullname; ?>" name="fullname" class="form-control" id="inputCity">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="inputState"    class="col-form-label">Email</label>
-                                                <input type="text" readonly="" value="<?php echo $row3["email"]; ?>" name="email" class="form-control" id="inputCity">
+                                                <input type="text" readonly="" value="<?php echo $data['pro_info']->email; ?>" name="email" class="form-control" id="inputCity">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="inputZip" class="col-form-label">Phone</label>
-                                                <input type="text" readonly="" value="<?php echo $row3["phone"]; ?>" name="phone" class="form-control" id="inputZip">
+                                                <input type="text" readonly="" value="<?php echo $data['pro_info']->phone; ?>" name="phone" class="form-control" id="inputZip">
                                             </div>
                                         </div>
                                         <br>

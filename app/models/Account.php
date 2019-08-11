@@ -437,6 +437,19 @@
 
 
 
+       public function getProperties(){
+        $this->db->query('SELECT * FROM property');
+
+      $results = $this->db->resultSet();
+
+        return $results;
+      }
+
+
+
+
+
+
        public function getPropertyByRef($ref_id){
       $this->db->query('SELECT * FROM property WHERE ref_id = :ref_id');
       $this->db->bind(':ref_id', $ref_id);
@@ -458,7 +471,92 @@
     }
 
 
-    
+    public function GetTotalAgentPro(){
+      $this->db->query('SELECT user_id, COUNT(user_id) AS TotalCountAgentPro FROM property GROUP BY user_id');
+      //$this->db->bind(':ref_id', $ref_id);
+
+      
+
+    $results = $this->db->resultSet();
+
+    return $results;
+
+ 
+  }
+
+
+
+      public function UpdateProperty($data){
+       $this->db->query('UPDATE property SET title = :title, type = :type , purpose = :purpose, price = :price, rooms = :rooms, bathrooms = :bathrooms, details = :details, address = :address, latitude = :latitude, longitude = :longitude, state = :state, lga = :lga  WHERE ref_id = :ref_id');
+      // Bind values      
+      $this->db->bind(':title', $data['title']);
+      $this->db->bind(':type', $data['type']);
+      $this->db->bind(':purpose', $data['purpose']);
+      $this->db->bind(':price', $data['price']);
+      $this->db->bind(':rooms', $data['rooms']);
+      $this->db->bind(':bathrooms', $data['bathrooms']);
+      $this->db->bind(':details', $data['details']);
+      $this->db->bind(':address', $data['address']);
+      $this->db->bind(':latitude', $data['latitude']);
+      $this->db->bind(':longitude', $data['longitude']);
+      $this->db->bind(':state', $data['state']);
+      $this->db->bind(':lga', $data['lga']);
+      $this->db->bind(':ref_id', $data['ref_id']);
+      
+     
+
+   // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+
+
+       public function deleteProperty($ref_id){
+      $this->db->query('DELETE FROM property WHERE ref_id = :ref_id');
+      // Bind values
+      $this->db->bind(':ref_id', $ref_id);
+
+      // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+
+     public function propertyStatusActive($ref_id,$active){
+      $this->db->query('UPDATE property SET status = 1  WHERE ref_id = :ref_id');
+      // Bind values
+      $this->db->bind(':ref_id', $ref_id);
+
+      // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+    public function propertyStatusDisactive($ref_id,$inactive){
+      $this->db->query('UPDATE property SET status = 0  WHERE ref_id = :ref_id');
+      // Bind values
+      $this->db->bind(':ref_id', $ref_id);
+
+      // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
 
    
   }

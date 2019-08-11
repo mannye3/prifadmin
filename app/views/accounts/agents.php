@@ -66,6 +66,7 @@
                                             <th>Full Name</th>
                                             <th>Phone</th>
                                             <th>Email</th>
+                                            <th>Properties</th>
                                             <th>Reg Date</th>
                                             <th>Status</th>
                                           
@@ -75,6 +76,9 @@
 
                                         <tbody>
                                              <?php foreach($data['agents_info'] as $agents_info) :  $count++; ?>
+                                                <?php foreach($data['agents_pro'] as $agents_pro) : ?>
+
+                                                <?php if($agents_info->id == $agents_pro->user_id) : ?>
 
 
                                         <tr>
@@ -113,6 +117,10 @@
                                                 <?php echo $agents_info->email;  ?>
                                             </td>
 
+                                             <td>
+                                                <?php echo $agents_pro->TotalCountAgentPro; ?>
+                                            </td>
+
                                             <td>
                                                 <?php echo $agents_info->reg_date;  ?>
                                             </td>
@@ -146,7 +154,9 @@
                                             </td>
                                         </tr>
 
+                                       <?php endif; ?>
                                         <?php endforeach; ?>
+                                    <?php endforeach; ?>
 
                                         </tbody>
                                     </table>
